@@ -1,0 +1,8 @@
+(executable
+ (public_name advent_02)
+ (name main)
+ (libraries core))
+
+(alias
+ (name default)
+ (deps input.txt))
