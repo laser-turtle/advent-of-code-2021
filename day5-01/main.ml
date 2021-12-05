@@ -26,14 +26,8 @@ let calc_increment a b =
 ;;
 
 let count =
-    let xmax, ymax =
-        List.fold input ~init:(0, 0) ~f:(fun (xmax, ymax) ((x1, y1), (x2, y2)) ->
-            let x = max x1 x2 in
-            let y = max y1 y2 in
-            max xmax (x+1), max ymax (y+1)
-        )
-    in
-    let map = Array.make_matrix ~dimx:xmax ~dimy:ymax 0 in
+    let map = Hashtbl.Poly.create () in
+
     List.iter input ~f:(fun ((x1, y1), (x2, y2)) ->
         let dx = calc_increment x1 x2 in
         let dy = calc_increment y1 y2 in
@@ -41,22 +35,17 @@ let count =
             let x = ref x1 in
             let y = ref y1 in
             while !x <> (x2+dx) || !y <> (y2+dy) do
-                map.(!x).(!y) <- map.(!x).(!y) + 1;
+                Hashtbl.Poly.update map (!x, !y) ~f:(function
+                    | None -> 1
+                    | Some value -> value + 1
+                );
                 x := !x + dx;
                 y := !y + dy;
             done
         );
     );
 
-    let overlap_count = ref 0 in
-    Array.iter map ~f:(fun col ->
-        Array.iter col ~f:(fun value ->
-            if value > 1 then 
-                incr overlap_count
-        )
-    );
-
-    !overlap_count
+    Hashtbl.Poly.count map ~f:(fun v -> v > 1)
 ;;
 
 let _ = Printf.printf "Overlapping lines %d\n%!" count
