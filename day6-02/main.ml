@@ -14,7 +14,7 @@ let buckets =
     a |> Array.to_list
 
 let one_generation = function
-    | _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: _7 :: [_8] ->
+    | [_0; _1; _2; _3; _4; _5; _6; _7; _8] ->
         [_1; _2; _3; _4; _5; _6; _7 + _0; _8; _0]
 
     | _ -> assert false
