@@ -2,7 +2,3 @@
  (public_name advent_10)
  (name main)
  (libraries core))
-
-(alias
- (name default)
- (deps input.txt))

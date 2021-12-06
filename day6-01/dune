@@ -1,4 +1,4 @@
 (executable
- (public_name advent_09)
+ (public_name advent_11)
  (name main)
  (libraries core))
