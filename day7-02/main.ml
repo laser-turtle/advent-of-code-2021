@@ -1,4 +1,4 @@
-open Base__Import.compare_intqCore
+open Core
 
 let input =
     Sys.(get_argv()).(1)
