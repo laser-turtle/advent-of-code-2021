@@ -26,17 +26,16 @@ let get_neighbor map x y =
 ;;
 
 let find_low_points map =
-    let seeds = ref [] in
-    H.iteri map ~f:(fun ~key:(x, y) ~data:point ->
+    H.fold ~init:[] ~f:(fun ~key:(x, y) ~data:point seeds ->
         let left = get_neighbor map (x-1) y in 
         let right = get_neighbor map (x+1) y in
         let top = get_neighbor map x (y-1) in
         let bot = get_neighbor map x (y+1) in 
         if point < left && point < right && point < top && point < bot then (
-            seeds := (x, y) :: !seeds
-        )
-    );
-    !seeds
+            (x, y) :: seeds
+        ) else 
+            seeds
+    ) map
 ;;
 
 let rec region_size map (x, y as loc) =
