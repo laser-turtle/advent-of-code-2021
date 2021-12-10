@@ -19,25 +19,6 @@ let input =
         map
 ;;
 
-let get_neighbor map x y =
-    match H.find map (x, y) with
-    | None -> Int.max_value
-    | Some v -> v
-;;
-
-let find_low_points map =
-    H.fold ~init:[] ~f:(fun ~key:(x, y) ~data:point seeds ->
-        let left = get_neighbor map (x-1) y in 
-        let right = get_neighbor map (x+1) y in
-        let top = get_neighbor map x (y-1) in
-        let bot = get_neighbor map x (y+1) in 
-        if point < left && point < right && point < top && point < bot then (
-            (x, y) :: seeds
-        ) else 
-            seeds
-    ) map
-;;
-
 let rec region_size map (x, y as loc) =
     H.remove map loc;
 
@@ -54,10 +35,16 @@ let rec region_size map (x, y as loc) =
     + check x (y+1)
 ;;
 
+let rec find_basins acc map =
+    match H.choose map with
+    | None -> acc
+    | Some (loc, _) -> 
+        find_basins (region_size map loc :: acc) map
+;;
+
 let _ =
     input
-    |> find_low_points
-    |> List.map ~f:(region_size input)
+    |> find_basins []
     |> List.sort ~compare:Int.descending
     |> (fun l -> List.take l 3)
     |> List.reduce_exn ~f:( * )
