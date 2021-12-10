@@ -1,0 +1,4 @@
+(executable
+ (public_name advent_18)
+ (name main)
+ (libraries core))
