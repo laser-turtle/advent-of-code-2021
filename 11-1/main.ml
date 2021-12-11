@@ -51,5 +51,5 @@ let _ =
         H.set map ~key:(x, y) ~data:(Char.to_int c - 48);
         map
     )
-    |> (fun map -> Fn.apply_n_times ~n:196 (step map) 0)
+    |> (fun map -> Fn.apply_n_times ~n:100 (step map) 0)
     |> Printf.printf "%d\n%!"
