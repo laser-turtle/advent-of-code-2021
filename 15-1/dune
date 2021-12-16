@@ -1,0 +1,5 @@
+(executable
+ (public_name advent_29)
+ (name main)
+ (preprocess (pps ppx_jane))
+ (libraries core))
